@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mango - E-Commerce</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Custom Dark Blue-Themed Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #191970; /* Midnight Blue */
+            color: #ffffff; /* White text */
+        }
+
+        /* Navbar */
+        .navbar {
+            background: linear-gradient(90deg, #4169e1, #191970); /* Royal Blue to Midnight Blue */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand, .nav-link {
+            color: #fff !important;
+            font-weight: bold;
+        }
+
+        .nav-link:hover {
+            color: #aad4ff !important; /* Light blue hover */
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(90deg, #191970, #4169e1); /* Midnight Blue to Royal Blue */
+            color: #fff;
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            font-weight: bold;
+        }
+
+        header p {
+            font-size: 1.2rem;
+        }
+
+        /* Pages */
+        .page {
+            display: none;
+            padding: 50px 0;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .page h2 {
+            color: #4169e1; /* Royal Blue heading */
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .page p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        /* Gallery */
+        .gallery img {
+            border-radius: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .gallery img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(65, 105, 225, 0.5); /* Royal Blue shadow */
+        }
+
+        .product-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        /* Footer */
+        footer {
+            background: #191970; /* Midnight Blue */
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        /* Login Modal */
+        .modal-content {
+            border-radius: 10px;
+            border: none;
+            background: #191970; /* Midnight Blue */
+            color: #fff;
+        }
+
+        .modal-header {
+            background: #4169e1; /* Royal Blue */
+            color: #fff;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .btn-primary {
+            background: #4169e1; /* Royal Blue */
+            border: none;
+            transition: background 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: #191970; /* Midnight Blue hover */
+        }
+
+        /* Input Fields */
+        .form-control {
+            background: #2a2a72; /* Darker blue */
+            border: 1px solid #4169e1; /* Royal Blue */
+            color: #fff;
+        }
+
+        .form-control:focus {
+            background: #2a2a72; /* Darker blue */
+            border-color: #4169e1; /* Royal Blue */
+            color: #fff;
+        }
+
+        /* Add to Cart Button */
+        .add-to-cart {
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        /* Search Bar */
+        .search-bar {
+            margin-left: 20px;
+            width: 300px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#home">Mango</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about">About Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#product">Product</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#partner">Partner</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#gallery">Gallery</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Login</a></li>
+                </ul>
+                <!-- Search Bar -->
+                <form class="d-flex search-bar">
+                    <input class="form-control me-2" type="search" placeholder="Search products" aria-label="Search" id="searchInput">
+                    <button class="btn btn-outline-light" type="button" onclick="searchProducts()">Search</button>
+                    <button class="btn btn-outline-light ms-2" type="button" onclick="clearSearch()">Clear</button>
+                </form>
+                <!-- <li class="nav-item">
+                    <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#cartModal">
+                        <i class="fas fa-shopping-cart"></i> Cart (<span id="cartCount">0</span>)
+                    </a>
+                </li> -->
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header>
+        <h1 id="page-title">Welcome to Mango</h1>
+        <p id="page-description">Your one-stop shop for all your needs</p>
+    </header>
+
+    <!-- Pages -->
+    <main class="container">
+        <!-- Home Page -->
+        <div id="home" class="page active">
+            <h2>Featured Products</h2>
+            <p>Explore our latest collection of products.</p>
+            <div class="row gallery">
+                <div class="col-md-4 mb-4">
+                    <img src="dress.png" class="img-fluid" alt="Dress">
+                    <div class="product-name">Dress</div>
+                    <button class="btn btn-primary add-to-cart">Add to Cart</button>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <img src="watch.png" class="img-fluid" alt="Watch">
+                    <div class="product-name">Watch</div>
+                    <button class="btn btn-primary add-to-cart">Add to Cart</button>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <img src="glass.png" class="img-fluid" alt="Sunglasses">
+                    <div class="product-name">Sunglasses</div>
+                    <button class="btn btn-primary add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- About Us Page -->
+        <div id="about" class="page">
+            <h2>About Us</h2>
+            <p>We are a leading e-commerce platform dedicated to providing the best products and services.</p>
+        </div>
+
+        <!-- Product Page -->
+        <div id="product" class="page">
+            <h2>Our Products</h2>
+            <p>Check out our amazing range of products.</p>
+            <div class="row gallery">
+                <div class="col-md-4 mb-4">
+                    <img src="dress.png" class="img-fluid" alt="Dress">
+                    <div class="product-name">Dress</div>
+                    <button class="btn btn-primary add-to-cart">Add to Cart</button>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <img src="watch.png" class="img-fluid" alt="Watch">
+                    <div class="product-name">Watch</div>
+                    <button class="btn btn-primary add-to-cart">Add to Cart</button>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <img src="glass.png" class="img-fluid" alt="Sunglasses">
+                    <div class="product-name">Sunglasses</div>
+                    <button class="btn btn-primary add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Partner Page -->
+        <div id="partner" class="page">
+            <h2>Our Partners</h2>
+            <p>We collaborate with the best brands in the industry.</p>
+        </div>
+
+        <!-- Contact Us Page -->
+        <div id="contact" class="page">
+            <h2>Contact Us</h2>
+            <p>Reach out to us for any inquiries or support.</p>
+            <p>Email: support@mango.com</p>
+            <p>Phone: +123 456 7890</p>
+        </div>
+
+        <!-- Gallery Page -->
+        <div id="gallery" class="page">
+            <h2>Gallery</h2>
+            <div class="row gallery">
+                <div class="col-md-4 mb-4">
+                    <img src="dress.png" class="img-fluid" alt="Dress">
+                    <div class="product-name">Dress</div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <img src="watch.png" class="img-fluid" alt="Watch">
+                    <div class="product-name">Watch</div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <img src="glass.png" class="img-fluid" alt="Sunglasses">
+                    <div class="product-name">Sunglasses</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Mango. All rights reserved.</p>
+    </footer>
+
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Login</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="loginForm">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" minlength="6" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Show the correct page based on the URL hash
+        function showPage() {
+            const hash = window.location.hash || "#home";
+            document.querySelectorAll(".page").forEach(page => page.classList.remove("active"));
+            document.querySelector(hash).classList.add("active");
+
+            // Update header title and description
+            const title = document.getElementById("page-title");
+            const description = document.getElementById("page-description");
+            switch (hash) {
+                case "#home":
+                    title.textContent = "Welcome to Mango";
+                    description.textContent = "Your one-stop shop for all your needs";
+                    break;
+                case "#about":
+                    title.textContent = "About Us";
+                    description.textContent = "Learn more about our company";
+                    break;
+                case "#product":
+                    title.textContent = "Our Products";
+                    description.textContent = "Check out our amazing range of products";
+                    break;
+                case "#partner":
+                    title.textContent = "Our Partners";
+                    description.textContent = "We collaborate with the best brands in the industry";
+                    break;
+                case "#contact":
+                    title.textContent = "Contact Us";
+                    description.textContent = "Reach out to us for any inquiries or support";
+                    break;
+                case "#gallery":
+                    title.textContent = "Gallery";
+                    description.textContent = "Explore our product gallery";
+                    break;
+            }
+        }
+
+        // Listen for hash changes
+        window.addEventListener("hashchange", showPage);
+        showPage(); // Show the correct page on initial load
+
+        // Login Form Validation
+        document.getElementById("loginForm").addEventListener("submit", function (e) {
+        e.preventDefault(); // Prevent form from refreshing page
+
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value.trim();
+        const validUser = { email: "user@example.com", password: "password123" };
+
+        if (!email || !password) {
+            alert("Please fill in all fields.");
+        } else if (password.length < 6) {
+            alert("Password must be at least 6 characters long.");
+        } else if (email !== validUser.email || password !== validUser.password) {
+            alert("Invalid email or password. Try again.");
+        } else {
+            alert("Login successful!");
+            document.getElementById("loginModal").classList.remove("show");
+            document.querySelector(".modal-backdrop").remove();
+        }
+    });
+
+        // Search Functionality
+        function searchProducts() {
+    let input = document.getElementById("searchInput").value.trim().toLowerCase(); // Get and trim search input
+    let products = document.querySelectorAll(".gallery .col-md-4"); // Get all products
+    let noResultsMessage = document.getElementById("noResultsMessage"); // Get no results message element
+
+    let found = false; // Flag to check if any product matches
+
+    products.forEach(product => {
+        let productName = product.querySelector(".product-name").textContent.toLowerCase(); // Get product name in lowercase
+        if (productName === input) { // Check for exact match
+            product.style.display = "block"; // Show the matching product
+            found = true;
+        } else {
+            product.style.display = "none"; // Hide non-matching products
+        }
+    });
+
+    // Show a message if no products match the search
+    if (!found) {
+        if (!noResultsMessage) {
+            noResultsMessage = document.createElement("p");
+            noResultsMessage.id = "noResultsMessage";
+            noResultsMessage.textContent = "No products found.";
+            noResultsMessage.style.textAlign = "center";
+            noResultsMessage.style.color = "#fff";
+            document.querySelector(".gallery").appendChild(noResultsMessage);
+        }
+    } else if (noResultsMessage) {
+        noResultsMessage.remove(); // Remove the message if products are found
+    }
+}
+function clearSearch() {
+    document.getElementById("searchInput").value = ""; // Clear the search input
+    let products = document.querySelectorAll(".gallery .col-md-4");
+    let noResultsMessage = document.getElementById("noResultsMessage");
+
+    // Show all products
+    products.forEach(product => {
+        product.style.display = "block";
+    });
+
+    // Remove the "No products found" message if it exists
+    if (noResultsMessage) {
+        noResultsMessage.remove();
+    }
+}
+    </script>
+</body>
+</html>
